@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "clieent-test-helm.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "clieent-test-helm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "clieent-test-helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "clieent-test-helm.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "clieent-test-helm.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: mock-agent # the mock Agent(alpine) to echo the config files
+          image: alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: CONFIG_FILE_PATH
+            # the shared dir where client writes config files for agent
+              value: /fso-agent-management-client-data
+            - name: CONFIG_FILE_NAME
+            # the shared dir where client writes config files for agent
+              value: config.yaml
+          command: [ "/bin/sh" ]
+          args: [ "-c", "apk update && apk add inotify-tools && while true; do inotifywait -e modify $CONFIG_FILE_PATH/$CONFIG_FILE_NAME; cat  $CONFIG_FILE_PATH/$CONFIG_FILE_NAME; done" ]
+          volumeMounts:
+            - name: fso-agent-management-client-data
+              mountPath: /fso-agent-management-client-data
+        - name: fso-agent-management-client
+          # using the agent-config-client image which is designed to write the configs received directly to
+          # a file, which will help us to see the deployment objects received to the Orchestration client
+          # just by changes CLIENT_TYPE we should be able to check both Orchestration client and
+          # agent-config-client chases
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: INSTANCE_UID
+              value: 8b82e8ac-bbc0-4d08-9072-962cf5598371
+            - name: CONFIG_FILE_PATH
+              # the shared dir where client writes config files for agent
+              value: /fso-agent-management-client-data
+            - name: CLUSTER_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace # defaults to appdynamics
+            - name: INSTALLED_TIME
+              value: "2023-03-24T12:20:00Z"
+          volumeMounts:
+            - name: fso-agent-management-client-data
+              mountPath: /fso-agent-management-client-data
+      volumes:
+        - name: fso-agent-management-client-data
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
