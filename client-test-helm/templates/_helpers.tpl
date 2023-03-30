@@ -50,13 +50,3 @@ app.kubernetes.io/name: {{ include "client-test-helm.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "client-test-helm.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "client-test-helm.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
