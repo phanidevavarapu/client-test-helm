@@ -14,6 +14,8 @@ data:
   OAUTH_URL: "OAUTH_URL_VALUE"
   OAUTH_TENANT_ID: "OAUTH_TENANT_ID_VALUE"
   OAUTH_SCOPES: "OAUTH_SCOPES_VALUE"
+  CONFIG_FILE_PATH: {{ .Values.config.file.path }}
+  CONFIG_FILE_NAME: {{ .Values.config.file.name }}
   INSECURE: {{ default true .Values.tls.insecure | quote }}
   CA_FILE: {{ .Values.tls.caFile | quote }}
   CERT_FILE: {{ .Values.tls.certFile | quote }}
