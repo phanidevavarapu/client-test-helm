@@ -30,18 +30,14 @@ spec:
         - name: mock-agent # the mock Agent(alpine) to echo the config files
           image: alpine
           imagePullPolicy: IfNotPresent
-          env:
-            - name: CONFIG_FILE_PATH
-            # the shared dir where client writes config files for agent
-              value: /fso-agent-management-client-data
-            - name: CONFIG_FILE_NAME
-            # the shared dir where client writes config files for agent
-              value: config.yaml
           command: [ "/bin/sh" ]
           args: [ "-c", "apk update && apk add inotify-tools && while true; do inotifywait -e modify $CONFIG_FILE_PATH/$CONFIG_FILE_NAME; cat  $CONFIG_FILE_PATH/$CONFIG_FILE_NAME; done" ]
+          envFrom:
+            - configMapRef:
+                name: {{ include "client-test-helm.fullname" . }}
           volumeMounts:
             - name: fso-agent-management-client-data
-              mountPath: /fso-agent-management-client-data
+              mountPath: {{ .Values.config.file.path }}
         - name: fso-agent-management-client
           # using the agent-config-client image which is designed to write the configs received directly to
           # a file, which will help us to see the deployment objects received to the Orchestration client
@@ -52,18 +48,18 @@ spec:
           env:
             - name: INSTANCE_UID
               value: 8b82e8ac-bbc0-4d08-9072-962cf5598371
-            - name: CONFIG_FILE_PATH
-              # the shared dir where client writes config files for agent
-              value: /fso-agent-management-client-data
             - name: CLUSTER_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace # defaults to appdynamics
             - name: INSTALLED_TIME
               value: "2023-03-24T12:20:00Z"
+          envFrom:
+            - configMapRef:
+                name: {{ include "client-test-helm.fullname" . }}
           volumeMounts:
             - name: fso-agent-management-client-data
-              mountPath: /fso-agent-management-client-data
+              mountPath: {{ .Values.config.file.path }}
       volumes:
         - name: fso-agent-management-client-data
           emptyDir: {}

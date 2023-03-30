@@ -48,3 +48,8 @@ tls:
   caFile: ""
   certFile: ""
   keyFile: ""
+
+config:
+  file:
+    path: /fso-agent-management-client-data
+    name: config.yaml
