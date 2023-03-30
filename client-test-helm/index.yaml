@@ -3,12 +3,12 @@ entries:
   client-test-helm:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-03-30T15:02:02.024461-07:00"
+    created: "2023-03-30T15:24:34.663543-07:00"
     description: A Helm chart for Kubernetes
-    digest: a9c6998d8ed0a0a255f80e2b9dfb351aa7c0b0f3e47b796f6cfa9325bfaf5e1c
+    digest: bfc1cf77b0bd927c48fe70dadb513b0feb87c3201ae1eec024a029c848b5a36b
     name: client-test-helm
     type: application
     urls:
     - https://phanidevavarapu.github.io/client-test-helm/client-test-helm/client-test-helm-0.1.0.tgz
     version: 0.1.0
-generated: "2023-03-30T15:02:02.022713-07:00"
+generated: "2023-03-30T15:24:34.661231-07:00"
