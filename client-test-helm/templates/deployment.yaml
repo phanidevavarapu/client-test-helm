@@ -57,6 +57,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "client-test-helm.fullname" . }}
+            - secretRef:
+                name: {{ include "client-test-helm.fullname" . }}
           volumeMounts:
             - name: fso-agent-management-client-data
               mountPath: {{ .Values.config.file.path }}
