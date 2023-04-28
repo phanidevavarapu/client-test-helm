@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ include "client-test-helm.fullname" . }}-new
+  name: {{ include "client-test-helm.fullname" . }}
   namespace: {{ .Values.namespace }}
   labels:
     {{- include "client-test-helm.labels" . | nindent 4 }}
