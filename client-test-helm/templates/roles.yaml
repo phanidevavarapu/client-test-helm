@@ -4,7 +4,7 @@ metadata:
   name: {{ include "client-test-helm.fullname" . }}-new
   namespace: {{ .Values.namespace }}
   labels:
-    {{- include "client-test-helm.labels" . | nindent 4 }}-new
+    {{- include "client-test-helm.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""
