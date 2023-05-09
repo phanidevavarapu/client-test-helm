@@ -54,6 +54,12 @@ spec:
                   fieldPath: metadata.namespace # defaults to appdynamics
             - name: INSTALLED_TIME
               value: "INSTALLED_TIME_VALUE"
+            - name: CLUSTER_ID
+              value: "CLUSTER_ID_VALUE"
+            - name: K8_OBJECT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.uid
           envFrom:
             - configMapRef:
                 name: {{ include "client-test-helm.fullname" . }}
