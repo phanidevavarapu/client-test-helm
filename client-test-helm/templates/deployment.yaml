@@ -47,13 +47,13 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: INSTANCE_UID
-              value: 8b82e8ac-bbc0-4d08-9072-962cf5598371
+              value: INSTANCE_UID_VALUE
             - name: CLUSTER_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace # defaults to appdynamics
             - name: INSTALLED_TIME
-              value: "2023-03-24T12:20:00Z"
+              value: INSTALLED_TIME_VALUE
           envFrom:
             - configMapRef:
                 name: {{ include "client-test-helm.fullname" . }}
