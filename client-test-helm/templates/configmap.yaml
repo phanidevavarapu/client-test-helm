@@ -20,3 +20,5 @@ data:
   CA_FILE: {{ .Values.tls.caFile | quote }}
   CERT_FILE: {{ .Values.tls.certFile | quote }}
   KEY_FILE: {{ .Values.tls.keyFile | quote }}
+  AGENT_NAME: {{ .Values.service.name }}
+  RESOURCE_NAME: {{ include "client-test-helm.fullname" . }}
