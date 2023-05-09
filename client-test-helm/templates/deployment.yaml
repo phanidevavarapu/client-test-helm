@@ -53,7 +53,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace # defaults to appdynamics
             - name: INSTALLED_TIME
-              value: INSTALLED_TIME_VALUE
+              value: "INSTALLED_TIME_VALUE"
           envFrom:
             - configMapRef:
                 name: {{ include "client-test-helm.fullname" . }}
