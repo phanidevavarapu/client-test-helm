@@ -7,8 +7,8 @@ replicaCount: 1
 namespace: default
 
 image:
-  repository: 494198612820.dkr.ecr.us-west-2.amazonaws.com/cosmosx/agent-config-client
-  tag: "22.4.0-112"
+  repository: 829771730735.dkr.ecr.us-west-2.amazonaws.com/cosmosx/agent-config-client
+  tag: "23.8.0-599"
 
 service:
   name: test_agent
@@ -24,3 +24,8 @@ config:
   file:
     path: /fso-agent-management-client-data
     name: config.yaml
+
+proxy:
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
