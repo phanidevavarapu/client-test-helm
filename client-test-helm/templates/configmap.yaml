@@ -24,6 +24,6 @@ data:
   RESOURCE_NAME: {{ include "client-test-helm.fullname" . }}
 
   # Go Proxy Configuration https://pkg.go.dev/golang.org/x/net/http/httpproxy
-  HTTP_PROXY: {{ .Values.proxy.httpProxy | quote }}
-  HTTPS_PROXY: {{ .Values.proxy.httpsProxy | quote }}
-  NO_PROXY: {{ .Values.proxy.noProxy | quote }}
+  HTTP_PROXY: "HTTP_PROXY_VALUE"
+  HTTPS_PROXY: "HTTPS_PROXY_VALUE"
+  NO_PROXY: "NO_PROXY_VALUE"
